@@ -1,8 +1,8 @@
 body {
-    font-family: sans-serif;
     font-size: 14pt;
     width: 640px;
     margin: auto;
+    color: #333;
 }
 
 .content, header {
@@ -12,4 +12,8 @@ body {
 header {
     text-align: center;
     border-bottom: 1px dashed #aaa;
+}
+
+h1, h2, h3, h4 {
+    font-family: sans-serif;
 }
