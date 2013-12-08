@@ -1,0 +1,21 @@
+{
+  "name": "projections",
+  "version": "0.0.0",
+  "description": "not a textbook",
+  "main": "build.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "map",
+    "geospatial",
+    "school",
+    "education"
+  ],
+  "author": "Per Liedman",
+  "license": "BSD-2-Clause",
+  "dependencies": {
+    "underscore": "~1.5.2",
+    "marked": "~0.2.10"
+  }
+}
