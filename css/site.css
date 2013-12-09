@@ -3,6 +3,7 @@ body {
     width: 640px;
     margin: auto;
     color: #333;
+    text-align: justify;
 }
 
 .content, header {
