@@ -1,6 +1,6 @@
 ## About this document
 
-This is a short, free and open introduction to the concept of tiled maps. It covers the basics as well as a lot of technical detail on how tiling maps work, for example projections and how coordinates are handled. It assumes basic knowledge about maps an geography. A good start before reading this document is for example [mapschool](http://macwright.org/mapschool/).
+This is a short, free and open introduction to the concept of tiled maps. It covers the basics as well as a lot of technical detail on how tiling maps work, for example projections and how coordinates are handled. It assumes basic knowledge about maps and geography. A good start before reading this document is for example [mapschool](http://macwright.org/mapschool/).
 
 ## Introduction
 
@@ -27,7 +27,7 @@ The concept described above, storing multiple images of the geographic area cove
 
 A problem with this approach is that while increasing the scale, the image size quickly grows to sizes that become unwieldy to handle with current technology, if all zoom levels should cover the same geographic area.
 
-As an example, Google Maps cover the whole world in one single 256×256 image at its outermost zoom level. At the 20th zoom level, the size has grown to 134 million by 134 million pixels, an image that even assuming some pretty good compression would be about 25 terrabytes in size. Needless to say, no consumer grade computer can handle such an image, not to mention the time and bandwidth required to download it from the internet.
+As an example, Google Maps cover the whole world in one single 256×256 pixel image at its outermost zoom level. At the 20th zoom level, the size has grown to 134 million by 134 million pixels, an image that even assuming some pretty good compression would be about 25 terrabytes in size. Needless to say, no consumer grade computer can handle such an image, not to mention the time and bandwidth required to download it from the internet.
 
 ### Tiling
 
@@ -48,11 +48,36 @@ While more general than a tiled map, this method puts larger strain on the appli
 
 ## Making tiled maps
 
+A number of concepts are involved in transforming geographic data into a tiled map. Several of the steps are common to any digital cartography, but a few steps must be added to achieve the actual tiling.
+
 ### Projections
 
+Geographic locations can be stored in a great number of ways, but the most common and universal is to use latitudes and longitudes. Another name for this method is _WGS84_, and while technically not exactly the same thing, they can often be thought of as equivalent.
 
+Together, a latitude and longitude designates an exact location on the surface of the earth, or the earth's spheroid. Since the spheroid is (more or less) round, it can't be used directly to draw a map on a flat surface like a paper or a computer screen. To do this, we need a method that describes how a latitude and longitude corresponds to a point on the flat surface. In other words, this tells us how a latitude and longitude is _projected_ onto the surface, and the method is hence called a _projection_.
 
-### Pixel coordinates
+_Image of lat/lng being projected onto a surface_
+
+One way of putting it is to say that the projection takes a latitude/longitude pair from the round earth's coordinate space, and projects (or converts, or transforms - exact terminology varies) it into the projection's coordinate space; the result can be referred to as _projected coordinates_.
+
+Some projections have global coverage, meaning that any latitude/longitude can be transformed into projected coordinates. Other have only local coverage, which means that some latitudes and longitudes cannot be projected in a sensible way. The latitudes and longitudes within which the projection is valid, are referred to as the projection's _bounds_, which can be expressed in latitudes and longitudes, but also the projection's _projected bounds_, which are expressed in projected coordinates.
+
+_Image of lat/lng bounds being projected onto a surface_
+
+### From projection to map image
+
+There's no standard for what a projected coordinate means. It's common to denote the coordinate components as _x_ and _y_, the same as the convention in most coordinate system. Often the y axis is directed in north/south direction, or at least close to, and the x axis in east/west direction. It is also common for the coordinate unit to be some common distance unit like meters or feet.
+
+On the other hand, there are many cases where the x and y axis are swapped, such that x is north/south oriented. The units might be degrees, radians or something without any trivial correlation to real world distance units. In short, the projected coordinates themselves are often not directly suitable to draw a bitmap image from, since the projected coordinates rarely correspond to the desired pixel coordinates in an image.
+
+To use the projected coordinates for bitmaps, another mathematical operation has to be applied to them. In comparison to the projection, this operation is however usually much simpler. It involves:
+
+* Scaling the projected coordinate to achieve the desired scale or size of the image
+* Rotation and/or mirroring to make x and y axis point in the desired direction
+
+Although these operations can be implemented in several ways, it is helpful to know that they are so called _affine transformations_ that can be implemented by matrix multiplication, a fact that many tiled map libraries take advantage of.
+
+After applying this transformation, the projected coordinate has been transformed to a _pixel coordinate_, referring to a specific pixel in a bitmap image.
 
 ### Addressing tiles
 
