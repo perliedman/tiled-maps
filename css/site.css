@@ -1,13 +1,15 @@
 body {
     font-size: 14pt;
-    width: 640px;
+    width: 680px;
     margin: auto;
-    color: #333;
+    color: #444;
     text-align: justify;
+    background: url(../images/zwartevilt.png);
 }
 
 .content, header {
-    padding: 48px 0 32px 0;
+    padding: 48px 32px 32px 32px;
+    background-color: white;
 }
 
 header {
