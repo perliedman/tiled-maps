@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<style>
+
+body {
+  background: white;
+}
+
+.stroke {
+  fill: none;
+  stroke: #888;
+  stroke-width: 3px;
+}
+
+.projection {
+  fill: none;
+  stroke: #f84;
+  stroke-width: 2px;
+  stroke-dasharray: 5, 5;
+}
+
+.fill {
+  fill: #fff;
+}
+
+.graticule {
+  fill: none;
+  stroke: #ddd;
+  stroke-width: .25px;
+  stroke-opacity: .5;
+}
+
+.land {
+  fill: #aaa;
+}
+
+.boundary {
+  fill: none;
+  stroke: #fff;
+  stroke-width: .25px;
+}
+
+</style>
+<body>
+<script src="http://d3js.org/d3.v3.min.js"></script>
+<script src="http://d3js.org/topojson.v1.min.js"></script>
+<script>
+
+var width = 640,
+    height = 320;
+
+var p1 = d3.geo.orthographic()
+    .scale(475/5)
+    .rotate([-10, -52, 0])
+    .translate([width / 5, height / 2])
+    .clipAngle(90)
+    .precision(.1);
+var p2 = d3.geo.mercator()
+    .scale((width + 1) / 5 / Math.PI)
+    .translate([3 * width / 4, height / 2])
+    .precision(.1);
+
+var path1 = d3.geo.path()
+    .projection(p1);
+var path2 = d3.geo.path()
+    .projection(p2);
+
+var graticule = d3.geo.graticule();
+
+var svg = d3.select("body").append("svg")
+    .attr("width", width)
+    .attr("height", height);
+
+svg.append("defs").append("path")
+    .datum({type: "Sphere"})
+    .attr("id", "sphere")
+    .attr("d", path1);
+
+svg.append("use")
+    .attr("class", "stroke")
+    .attr("xlink:href", "#sphere");
+
+svg.append("use")
+    .attr("class", "fill")
+    .attr("xlink:href", "#sphere");
+
+svg.append("path")
+    .datum(graticule)
+    .attr("class", "graticule")
+    .attr("d", path1);
+svg.append("path")
+    .datum(graticule)
+    .attr("class", "graticule")
+    .attr("d", path2);
+
+d3.json("../data/world-50m.json", function(error, world) {
+  var feature,
+      mesh;
+
+  if (error) {
+    throw error;
+  }
+
+  feature = topojson.feature(world, world.objects.land);
+  mesh =topojson.mesh(world, world.objects.countries, function(a, b) { return a !== b; });
+
+  svg.insert("path", ".graticule")
+      .datum(feature)
+      .attr("class", "land")
+      .attr("d", path1);
+
+  svg.insert("path", ".graticule")
+      .datum(mesh)
+      .attr("class", "boundary")
+      .attr("d", path1);
+  svg.insert("path", ".graticule")
+      .datum(feature)
+      .attr("class", "land")
+      .attr("d", path2);
+
+  svg.insert("path", ".graticule")
+      .datum(mesh)
+      .attr("class", "boundary")
+      .attr("d", path2);
+
+  svg.insert("path", ".projection")
+      .datum([
+        p1([12, 57]),
+        [width * 0.3, height * 0.2],
+        [width / 2, height * 0.1],
+        [width * 0.7, height * 0.2],
+        p2([12, 57])])
+      .attr("class", "projection")
+      .attr("d", d3.svg.line()
+          .interpolate("basis")
+          .tension(1));
+});
+
+d3.select(self.frameElement).style("height", height + "px");
+
+</script>
+</body>
+</html>
