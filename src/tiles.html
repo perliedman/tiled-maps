@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Tiles!</title>
+    </head>
+    <body>
+        <canvas id="dst" width="640" height="472"></canvas>
+        <img id="dstImage"/>
+        <script type="text/javascript">
+            var dst = document.getElementById('dst').getContext('2d'),
+                src = new Image(),
+                row,
+                col,
+                x,
+                y;
+
+            src.onload = function() {
+                dst.strokeStyle = 'rgb(128, 128, 128, 0.6)';
+                dst.lineWidth = 0.2;
+
+                dst.drawImage(src, 0, 32, 256, 192, 192, 0, 256, 192);
+                dst.strokeRect(192, 0, 256, 192);
+
+                for (row = 1; row < 7; row++) {
+                    for (col = 0; col < 8; col++) {
+                        x = 160 + col * 40;
+                        y = 192 + row * 40;
+                        dst.drawImage(src, col * 32, row * 32, 32, 32,
+                            x, y, 32, 32);
+                        dst.strokeRect(x, y, 32, 32);
+                    }
+                }
+
+                document.getElementById('dstImage').src = document.getElementById('dst').toDataURL('image/png');
+            };
+            src.src = '../images/mercator.png'
+        </script>
+    </body>
+</html>

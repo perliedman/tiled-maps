@@ -37,6 +37,14 @@ body {
   stroke-dasharray: 5, 5;
 }
 
+.bounds {
+  fill: #48f;
+  fill-opacity: 0.1;
+  stroke: #48f;
+  stroke-width: 1.5px;
+}
+
+
 .arrowhead {
   fill: #f84;
   stroke: #f84;
@@ -68,6 +76,28 @@ body {
 <script src="http://d3js.org/d3.v3.min.js"></script>
 <script src="http://d3js.org/topojson.v1.min.js"></script>
 <script>
+
+function interpolate(cs) {
+  var r = [],
+      segs = 30,
+      i,
+      c1,
+      c2,
+      dx,
+      dy,
+      j;
+  for (i = 0; i < cs.length - 1; i++) {
+    c1 = cs[i];
+    c2 = cs[i + 1];
+    dx = (c2[0] - c1[0]) / segs;
+    dy = (c2[1] - c1[1]) / segs;
+    for (var j = 0; j < segs; j++) {
+      r.push([c1[0] + dx * j / segs, c1[1] + dy * j / segs]);
+    }
+  }
+
+  return r;
+}
 
 var width = 640,
     height = 320;
@@ -128,7 +158,17 @@ svg.append("path")
     .attr("d", path2);
 
 d3.json("../data/world-50m.json", function(error, world) {
-  var feature,
+  var bounds = {
+        "type": "LineString",
+        "coordinates": interpolate([
+          [-20, 35],
+          [36, 35],
+          [36, 78],
+          [-20, 78],
+          [-20, 35]
+        ])
+      },
+      feature,
       mesh;
 
   if (error) {
@@ -156,6 +196,16 @@ d3.json("../data/world-50m.json", function(error, world) {
       .datum(mesh)
       .attr("class", "boundary")
       .attr("d", path2);
+
+  svg.insert("path", ".bounds")
+      .datum(bounds)
+      .attr("class", "bounds")
+      .attr("d", path1)
+
+  svg.insert("path", ".bounds")
+      .datum(bounds)
+      .attr("class", "bounds")
+      .attr("d", path2)
 
   svg.insert("path", ".projection")
       .datum([

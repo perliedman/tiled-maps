@@ -7,7 +7,7 @@ This is a short, free and open introduction to the concept of tiled maps. It cov
 A common way to display maps on computers, especially on the internet, is to use so called _tiled_ maps. A tiled map means
 that what appears to the user as one large map image, is really put together from a number of smaller images, _tiles_, that are drawn next to each other, without seams, to create the illusion of a much larger image.
 
-_Figure of a map split into tiles_
+![Figure of a map split into tiles](images/tiles.png)
 
 [Google Maps](https://maps.google.com/) is most certainly the prime example of a tiled map. It made maps on the internet popular in 2005, by stitching together 256 by 256 pixel images of the whole world at remarkable detail. Today, almost all maps on the internet aimed to the public use tiling.
 
@@ -15,7 +15,7 @@ _Figure of a map split into tiles_
 
 Lets go through how one could go about creating a map to be published on the internet.
 
-As a first attempt, we scan a paper map and publish the resulting bitmap image on the internet. This digital equivalent of a paper map has the same limitations as a paper map: the amount of detail is limited by the size of the image; adding more detail without cluttering the map forces us to either increase the size of the image, or reduce the reduce the scale of the map. This is fine if the purpose of the map is known before hand, the scale and size can be optimized for one purpose. For a general purpose map, this can't be easily done.
+As a first attempt, we scan a paper map and publish the resulting bitmap image on the internet. This digital equivalent of a paper map has the same limitations as a paper map: the amount of detail is limited by the size of the image; adding more detail without cluttering the map forces us to either increase the size of the image, or reduce the scale of the map. This is fine if the purpose of the map is known before hand: the scale and size can be optimized for one purpose. For a general purpose map, this can't be done easily.
 
 An alternative is to produce several maps at different scales, from large scale overview maps, down to highly detailed maps.
 
@@ -58,13 +58,13 @@ Geographic locations can be stored in a great number of ways, but the most commo
 
 Together, a latitude and longitude designates an exact location on the surface of the earth, or the earth's spheroid. Since the spheroid is (more or less) round, it can't be used directly to draw a map on a flat surface like a paper or a computer screen. To do this, we need a method that describes how a latitude and longitude corresponds to a point on the flat surface. In other words, this tells us how a latitude and longitude is _projected_ onto the surface, and the method is hence called a _projection_.
 
-![Figure of lat/lng being projected onto a surface](images/proj.png)
+![Figure of lat/lng point being projected onto a surface](images/proj.png)
 
 One way of putting it is to say that the projection takes a latitude/longitude pair from the round earth's coordinate space, and projects (or converts, or transforms - exact terminology varies) it into the projection's coordinate space; the result can be referred to as _projected coordinates_.
 
 Some projections have global coverage, meaning that any latitude/longitude can be transformed into projected coordinates. Other have only local coverage, which means that some latitudes and longitudes cannot be projected in a sensible way. The latitudes and longitudes within which the projection is valid, are referred to as the projection's _bounds_, which can be expressed in latitudes and longitudes, but also the projection's _projected bounds_, which are expressed in projected coordinates.
 
-_Figure of lat/lng bounds being projected onto a surface_
+![Figure of lat/lng bounds being projected onto a surface](images/proj-bounds.png)
 
 _Words about bounding boxes, lines etc. and how they're projected/unprojected_
 
@@ -131,4 +131,4 @@ Background pattern is Zwartevilt by [E. van Zummeren](http://www.evanzummeren.co
 
 ## License
 
-[Creative Commons Attribution 3.0 Unported](http://creativecommons.org/licenses/by/3.0/deed.en_US)
+[![Creative Commons](images/cc.png) Creative Commons Attribution 3.0 Unported](http://creativecommons.org/licenses/by/3.0/deed.en_US)
