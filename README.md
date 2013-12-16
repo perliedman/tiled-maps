@@ -58,7 +58,7 @@ Geographic locations can be stored in a great number of ways, but the most commo
 
 Together, a latitude and longitude designates an exact location on the surface of the earth, or the earth's spheroid. Since the spheroid is (more or less) round, it can't be used directly to draw a map on a flat surface like a paper or a computer screen. To do this, we need a method that describes how a latitude and longitude corresponds to a point on the flat surface. In other words, this tells us how a latitude and longitude is _projected_ onto the surface, and the method is hence called a _projection_.
 
-_Figure of lat/lng being projected onto a surface_
+![Figure of lat/lng being projected onto a surface](images/proj.png)
 
 One way of putting it is to say that the projection takes a latitude/longitude pair from the round earth's coordinate space, and projects (or converts, or transforms - exact terminology varies) it into the projection's coordinate space; the result can be referred to as _projected coordinates_.
 
@@ -122,8 +122,6 @@ There are a number of standards and proposals for tiling WMS. Their relation to 
 They all have in common that rather than addressing a tile by explicitly numbering the rows, columns and zoom levels of the tile set, they use the WMS standard's request to gather this information implicitly.
 
 A WMS request, among many things, includes a bounding box, specifying the projected coordinates of the requested image. From this bounding box, the scale can be calculated which gives the zoom level. By transforming the projected coordinates to pixel coordinates for this zoom level, the tile's row and column can be calculated.
-
-## Terminology
 
 ## Credits
 
