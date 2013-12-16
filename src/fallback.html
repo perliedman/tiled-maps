@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+
+<!--
+
+Copied from
+
+    http://bl.ocks.org/mbostock/6466603
+
+-->
+
+<meta charset="utf-8">
+<canvas width="640" height="320"></canvas>
+<script>
+
+var canvas = document.querySelector("canvas"),
+    context = canvas.getContext("2d");
+
+var image = new Image;
+image.src = "../tmp/fallback.svg";
+image.onload = function() {
+  context.drawImage(image, 0, 0);
+
+  var a = document.createElement("a");
+  a.download = "../tmp/fallback.png";
+  a.href = canvas.toDataURL("image/png");
+  a.click();
+};
+
+</script>
