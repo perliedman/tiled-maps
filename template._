@@ -10,7 +10,7 @@
     </head>
 <body>
     <header>
-        <h1>Tiled Maps</h1>
+        <h1>The Hitchhacker’s Guide To Tiled Maps</h1>
     </header>
     <div class="content">
 <%= content %>
