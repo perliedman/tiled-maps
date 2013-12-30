@@ -10,7 +10,6 @@ renderer.heading = function(text, level) {
     var escapedText = text.toLowerCase().replace(/[^\w]+/g, '-');
 
     if (level <= 2) {
-        console.log(escapedText + ": " + text);
         toc.push({text: text, name: escapedText});
     }
 
