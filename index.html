@@ -26,12 +26,14 @@
         
         <li><a href="#making-tiled-maps">Making tiled maps</a></li>
         
+        <li><a href="#tiling-in-practice">Tiling in practice</a></li>
+        
         <li><a href="#credits">Credits</a></li>
         
         <li><a href="#license">License</a></li>
         
     </ul>
-<h2><a name="about-this-document" class="anchor" href="#about-this-document"><span class="header-link"></span></a>About this document</h2><p>This is a short, free and open introduction to the concept of tiled maps. It covers the basics as well as a lot of technical detail on how tiling maps work, for example projections and how coordinates are handled. It assumes basic knowledge about maps and geography. A good start before reading this document is for example <a href="http://macwright.org/mapschool/">mapschool</a>.</p>
+<h2><a name="about-this-document" class="anchor" href="#about-this-document"><span class="header-link"></span></a>About this document</h2><p>This is a short, <a href="https://github.com/perliedman/tiled-maps">free and open</a> introduction to the concept of tiled maps. It covers the basics as well as a lot of technical detail on how tiling maps work, for example projections and how coordinates are handled. It assumes basic knowledge about maps and geography. A good start before reading this document is for example <a href="http://macwright.org/mapschool/">mapschool</a>.</p>
 <h2><a name="introduction" class="anchor" href="#introduction"><span class="header-link"></span></a>Introduction</h2><p>A common way to display maps on computers, especially on the internet, is to use so called <em>tiled</em> maps. A tiled map means
 that what appears to the user as one large map image, is really put together from a number of smaller images, <em>tiles</em>, that are drawn next to each other, without seams, to create the illusion of a much larger image.</p>
 <p><img src="images/tiles.png" alt="Figure of a map split into tiles"></p>
@@ -88,6 +90,32 @@ that what appears to the user as one large map image, is really put together fro
 </ul>
 <p>They all have in common that rather than addressing a tile by explicitly numbering the rows, columns and zoom levels of the tile set, they use the WMS standard’s request to gather this information implicitly.</p>
 <p>A WMS request, among many things, includes a bounding box, specifying the projected coordinates of the requested image. From this bounding box, the scale can be calculated which gives the zoom level. By transforming the projected coordinates to pixel coordinates for this zoom level, the tile’s row and column can be calculated.</p>
+<h2><a name="tiling-in-practice" class="anchor" href="#tiling-in-practice"><span class="header-link"></span></a>Tiling in practice</h2><h3><a name="leaflet" class="anchor" href="#leaflet"><span class="header-link"></span></a>Leaflet</h3><p><a href="http://leafletjs.com/">Leaflet</a> uses two classes to model the conversion from latitude and longitude into pixel and tile coordinates: the projection, <a href="http://leafletjs.com/reference.html#iprojection">IProjection</a> for getting to projected coordinates, and the coordinate reference system <a href="http://leafletjs.com/reference.html#icrs">ICRS</a> to convert to pixel coordinates.</p>
+<p>At the core, Leaflet defaults to have both pixel coordinates and tile rows starting from top of the screen and increase downwards, which is the convention in much of computer graphics. This means that it, by default, works like Google Maps and OpenStreetMap. It can however be adapted to use the TMS convention for row order.</p>
+<p>Leaflet has builtin support for a number of projections:</p>
+<ul>
+<li>Spherical Mercator (<code>L.Projection.SphericalMercator</code>)</li>
+<li>Elliptical Mercator (<code>L.Projection.Mercator</code>)</li>
+<li>Lon/Lat (<code>L.Projection.LonLat</code>)</li>
+</ul>
+<p>These come with matching ICRS implementations:</p>
+<ul>
+<li><code>L.CRS.EPSG3857</code> - Spherical Mercator</li>
+<li><code>L.CRS.EPSG4326</code> - WGS84</li>
+<li><code>L.CRS.EPSG3395</code> - World Mercator; slighly more exact than Spherical Mercator, but rarely used</li>
+</ul>
+<p>To get a projected coordinate into pixel coordinates, Leaflet uses an affine transform, implemented by <a href="http://leafletjs.com/reference.html#transformation">Transformation</a>. It can offset/translate (move the origin) and scale/invert coordinates, but general rotation and shear is not supported. The coefficients <code>a</code>, <code>b</code>, <code>c</code> and <code>d</code> can be thought of like this:</p>
+<ul>
+<li><em>a</em> - scale factor for <em>x</em></li>
+<li><em>b</em> - offset for <em>x</em></li>
+<li><em>c</em> - scale factor for <em>y</em></li>
+<li><em>d</em> - offset for <em>y</em></li>
+</ul>
+<p>Zoom level scales default to the convention for Google Maps/OpenStreetMap, but can easily be overridden by overriding the CRS’s <code>scale</code> method.</p>
+<p>Generic projection support can be added to Leaflet with the plugin <a href="https://github.com/kartena/Proj4Leaflet">Proj4Leaflet</a> (disclaimer: I’m one of the plugin’s authors), which gives access to all the projections supported by <a href="https://github.com/proj4js/proj4js">Proj4js</a>. The plugin also gives easy control for setting the tile sets origin and customizing the scale or resolution for the zoom levels.</p>
+<h3><a name="openlayers" class="anchor" href="#openlayers"><span class="header-link"></span></a>OpenLayers</h3><p>TBD</p>
+<h3><a name="tilestache" class="anchor" href="#tilestache"><span class="header-link"></span></a>TileStache</h3><p>TBD</p>
+<h3><a name="tilemill" class="anchor" href="#tilemill"><span class="header-link"></span></a>TileMill</h3><p>TBD</p>
 <h2><a name="credits" class="anchor" href="#credits"><span class="header-link"></span></a>Credits</h2><p>Inspiration from <a href="http://macwright.org">Tom MacWright</a> and his project <a href="http://macwright.org/mapschool/">mapschool</a>.</p>
 <p>Background pattern is Zwartevilt by <a href="http://www.evanzummeren.com/">E. van Zummeren</a>, published on <a href="http://subtlepatterns.com/">Subtle Patterns</a>.</p>
 <h2><a name="license" class="anchor" href="#license"><span class="header-link"></span></a>License</h2><p><a href="http://creativecommons.org/licenses/by/3.0/deed.en_US"><img src="images/cc.png" alt="Creative Commons"> Creative Commons Attribution 3.0 Unported</a></p>

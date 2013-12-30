@@ -123,6 +123,49 @@ They all have in common that rather than addressing a tile by explicitly numberi
 
 A WMS request, among many things, includes a bounding box, specifying the projected coordinates of the requested image. From this bounding box, the scale can be calculated which gives the zoom level. By transforming the projected coordinates to pixel coordinates for this zoom level, the tile's row and column can be calculated.
 
+## Tiling in practice
+
+### Leaflet
+
+[Leaflet](http://leafletjs.com/) uses two classes to model the conversion from latitude and longitude into pixel and tile coordinates: the projection, [IProjection](http://leafletjs.com/reference.html#iprojection) for getting to projected coordinates, and the coordinate reference system [ICRS](http://leafletjs.com/reference.html#icrs) to convert to pixel coordinates.
+
+At the core, Leaflet defaults to have both pixel coordinates and tile rows starting from top of the screen and increase downwards, which is the convention in much of computer graphics. This means that it, by default, works like Google Maps and OpenStreetMap. It can however be adapted to use the TMS convention for row order.
+
+Leaflet has builtin support for a number of projections:
+
+* Spherical Mercator (```L.Projection.SphericalMercator```)
+* Elliptical Mercator (```L.Projection.Mercator```)
+* Lon/Lat (```L.Projection.LonLat```)
+
+These come with matching ICRS implementations:
+
+* ```L.CRS.EPSG3857``` - Spherical Mercator
+* ```L.CRS.EPSG4326``` - WGS84
+* ```L.CRS.EPSG3395``` - World Mercator; slighly more exact than Spherical Mercator, but rarely used
+
+To get a projected coordinate into pixel coordinates, Leaflet uses an affine transform, implemented by [Transformation](http://leafletjs.com/reference.html#transformation). It can offset/translate (move the origin) and scale/invert coordinates, but general rotation and shear is not supported. The coefficients ```a```, ```b```, ```c``` and ```d``` can be thought of like this:
+
+* _a_ - scale factor for _x_
+* _b_ - offset for _x_
+* _c_ - scale factor for _y_
+* _d_ - offset for _y_
+
+Zoom level scales default to the convention for Google Maps/OpenStreetMap, but can easily be overridden by overriding the CRS's ```scale``` method.
+
+Generic projection support can be added to Leaflet with the plugin [Proj4Leaflet](https://github.com/kartena/Proj4Leaflet) (disclaimer: I'm one of the plugin's authors), which gives access to all the projections supported by [Proj4js](https://github.com/proj4js/proj4js). The plugin also gives easy control for setting the tile sets origin and customizing the scale or resolution for the zoom levels.
+
+### OpenLayers
+
+TBD
+
+### TileStache
+
+TBD
+
+### TileMill
+
+TBD
+
 ## Credits
 
 Inspiration from [Tom MacWright](http://macwright.org) and his project [mapschool](http://macwright.org/mapschool/).
