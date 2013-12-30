@@ -13,46 +13,53 @@
         <h1>The Hitchhacker’s Guide To Tiled Maps</h1>
     </header>
     <div class="content">
-<h2 id="about-this-document">About this document</h2>
-<p>This is a short, free and open introduction to the concept of tiled maps. It covers the basics as well as a lot of technical detail on how tiling maps work, for example projections and how coordinates are handled. It assumes basic knowledge about maps and geography. A good start before reading this document is for example <a href="http://macwright.org/mapschool/">mapschool</a>.</p>
-<h2 id="introduction">Introduction</h2>
-<p>A common way to display maps on computers, especially on the internet, is to use so called <em>tiled</em> maps. A tiled map means
+    <h2>Table of Contents</h2>
+    <ul class="toc">
+        
+        <li><a href="#about-this-document">About this document</a></li>
+        
+        <li><a href="#introduction">Introduction</a></li>
+        
+        <li><a href="#why-tiled-maps-">Why tiled maps?</a></li>
+        
+        <li><a href="#alternatives-to-tiling">Alternatives to tiling</a></li>
+        
+        <li><a href="#making-tiled-maps">Making tiled maps</a></li>
+        
+        <li><a href="#credits">Credits</a></li>
+        
+        <li><a href="#license">License</a></li>
+        
+    </ul>
+<h2><a name="about-this-document" class="anchor" href="#about-this-document"><span class="header-link"></span></a>About this document</h2><p>This is a short, free and open introduction to the concept of tiled maps. It covers the basics as well as a lot of technical detail on how tiling maps work, for example projections and how coordinates are handled. It assumes basic knowledge about maps and geography. A good start before reading this document is for example <a href="http://macwright.org/mapschool/">mapschool</a>.</p>
+<h2><a name="introduction" class="anchor" href="#introduction"><span class="header-link"></span></a>Introduction</h2><p>A common way to display maps on computers, especially on the internet, is to use so called <em>tiled</em> maps. A tiled map means
 that what appears to the user as one large map image, is really put together from a number of smaller images, <em>tiles</em>, that are drawn next to each other, without seams, to create the illusion of a much larger image.</p>
 <p><img src="images/tiles.png" alt="Figure of a map split into tiles"></p>
 <p><a href="https://maps.google.com/">Google Maps</a> is most certainly the prime example of a tiled map. It made maps on the internet popular in 2005, by stitching together 256 by 256 pixel images of the whole world at remarkable detail. Today, almost all maps on the internet aimed to the public use tiling.</p>
-<h2 id="why-tiled-maps-">Why tiled maps?</h2>
-<p>Lets go through how one could go about creating a map to be published on the internet.</p>
+<h2><a name="why-tiled-maps-" class="anchor" href="#why-tiled-maps-"><span class="header-link"></span></a>Why tiled maps?</h2><p>Lets go through how one could go about creating a map to be published on the internet.</p>
 <p>As a first attempt, we scan a paper map and publish the resulting bitmap image on the internet. This digital equivalent of a paper map has the same limitations as a paper map: the amount of detail is limited by the size of the image; adding more detail without cluttering the map forces us to either increase the size of the image, or reduce the scale of the map. This is fine if the purpose of the map is known before hand: the scale and size can be optimized for one purpose. For a general purpose map, this can’t be done easily.</p>
 <p>An alternative is to produce several maps at different scales, from large scale overview maps, down to highly detailed maps.</p>
-<h3 id="zoom-levels">Zoom levels</h3>
-<p>The concept described above, storing multiple images of the geographic area covered, but with different scales, is commonly called <em>zoom levels</em>, since the increasing scale can be envisioned as “zooming” into the map, making features larger and larger while also revealing more detail.</p>
-<h3 id="image-size">Image size</h3>
-<p>A problem with this approach is that while increasing the scale, the image size quickly grows to sizes that become unwieldy to handle with current technology, if all zoom levels should cover the same geographic area.</p>
+<h3><a name="zoom-levels" class="anchor" href="#zoom-levels"><span class="header-link"></span></a>Zoom levels</h3><p>The concept described above, storing multiple images of the geographic area covered, but with different scales, is commonly called <em>zoom levels</em>, since the increasing scale can be envisioned as “zooming” into the map, making features larger and larger while also revealing more detail.</p>
+<h3><a name="image-size" class="anchor" href="#image-size"><span class="header-link"></span></a>Image size</h3><p>A problem with this approach is that while increasing the scale, the image size quickly grows to sizes that become unwieldy to handle with current technology, if all zoom levels should cover the same geographic area.</p>
 <p>As an example, Google Maps cover the whole world in one single 256×256 pixel image at its outermost zoom level. At the 20th zoom level, the size has grown to 134 million by 134 million pixels, an image that even assuming some pretty good compression would be about 25 terrabytes in size. Needless to say, no consumer grade computer can handle such an image, not to mention the time and bandwidth required to download it from the internet.</p>
-<h3 id="tiling">Tiling</h3>
-<p>Instead of making a single, huge image, a tiling map will divide the image into several smaller images, <em>tiles</em>, of a fixed size. When displaying the map, only the images covering the geographic area currently being displayed are required. This means that typically only 20-30 tiles are needed to display any geographic area, independent of zoom level. This technique makes it possible to display maps at even modest hardware.</p>
-<h3 id="tiles-are-not-just-images">Tiles are not just images</h3>
-<p>Tiling is not necessarily just for images. The same technique can be used for other types of geographic data, where the data set is a coverage for a geographic area, and grows to unmanageable size. For example:</p>
+<h3><a name="tiling" class="anchor" href="#tiling"><span class="header-link"></span></a>Tiling</h3><p>Instead of making a single, huge image, a tiling map will divide the image into several smaller images, <em>tiles</em>, of a fixed size. When displaying the map, only the images covering the geographic area currently being displayed are required. This means that typically only 20-30 tiles are needed to display any geographic area, independent of zoom level. This technique makes it possible to display maps at even modest hardware.</p>
+<h3><a name="tiles-are-not-just-images" class="anchor" href="#tiles-are-not-just-images"><span class="header-link"></span></a>Tiles are not just images</h3><p>Tiling is not necessarily just for images. The same technique can be used for other types of geographic data, where the data set is a coverage for a geographic area, and grows to unmanageable size. For example:</p>
 <ul>
 <li><a href="https://github.com/mapbox/tm2">Vector tiles</a></li>
 <li><a href="https://github.com/mapbox/utfgrid-spec">UTFGrid</a></li>
 </ul>
-<h2 id="alternatives-to-tiling">Alternatives to tiling</h2>
-<p>Tiles are not the only method to achieve global maps at multiple scales. Another common method is to let the viewing application (web browser, for example) request an image of the current geographic location, and then let a server draw the bitmap image. One such technology is called WMS (Web Map Service), and standardizes how such images can be obtained. This method also removes the concept of fixed zoom levels, and produces images at whatever scale is requested.</p>
+<h2><a name="alternatives-to-tiling" class="anchor" href="#alternatives-to-tiling"><span class="header-link"></span></a>Alternatives to tiling</h2><p>Tiles are not the only method to achieve global maps at multiple scales. Another common method is to let the viewing application (web browser, for example) request an image of the current geographic location, and then let a server draw the bitmap image. One such technology is called WMS (Web Map Service), and standardizes how such images can be obtained. This method also removes the concept of fixed zoom levels, and produces images at whatever scale is requested.</p>
 <p>While more general than a tiled map, this method puts larger strain on the application that services the requests. Since the geographic areas and scales being requested can’t be known in advance, each image have to be drawn from scratch, which can be a very complicated process for detailed maps or when advanced cartographic techniques are used. This makes WMS and similar technologies infeasible to use if the service is being used by a large number of users.</p>
 <p>In contrast, with a tiled map, there is a limited, although possibly very high, number of possible tiles. This means they can all be drawn in advance, or cached once requested, with that all or requests can be served without any processing, making it highly efficient even for a large number of users.</p>
-<h2 id="making-tiled-maps">Making tiled maps</h2>
-<p>A number of concepts are involved in transforming geographic data into a tiled map. Several of the steps are common to any digital cartography, but a few steps must be added to achieve the actual tiling.</p>
-<h3 id="projections">Projections</h3>
-<p>Geographic locations can be stored in a great number of ways, but the most common and universal is to use latitudes and longitudes. Another name for this method is <em>WGS84</em>, and while technically not exactly the same thing, they can often be thought of as equivalent.</p>
+<h2><a name="making-tiled-maps" class="anchor" href="#making-tiled-maps"><span class="header-link"></span></a>Making tiled maps</h2><p>A number of concepts are involved in transforming geographic data into a tiled map. Several of the steps are common to any digital cartography, but a few steps must be added to achieve the actual tiling.</p>
+<h3><a name="projections" class="anchor" href="#projections"><span class="header-link"></span></a>Projections</h3><p>Geographic locations can be stored in a great number of ways, but the most common and universal is to use latitudes and longitudes. Another name for this method is <em>WGS84</em>, and while technically not exactly the same thing, they can often be thought of as equivalent.</p>
 <p>Together, a latitude and longitude designates an exact location on the surface of the earth, or the earth’s spheroid. Since the spheroid is (more or less) round, it can’t be used directly to draw a map on a flat surface like a paper or a computer screen. To do this, we need a method that describes how a latitude and longitude corresponds to a point on the flat surface. In other words, this tells us how a latitude and longitude is <em>projected</em> onto the surface, and the method is hence called a <em>projection</em>.</p>
 <p><img src="images/proj.png" alt="Figure of lat/lng point being projected onto a surface"></p>
 <p>One way of putting it is to say that the projection takes a latitude/longitude pair from the round earth’s coordinate space, and projects (or converts, or transforms - exact terminology varies) it into the projection’s coordinate space; the result can be referred to as <em>projected coordinates</em>.</p>
 <p>Some projections have global coverage, meaning that any latitude/longitude can be transformed into projected coordinates. Other have only local coverage, which means that some latitudes and longitudes cannot be projected in a sensible way. The latitudes and longitudes within which the projection is valid, are referred to as the projection’s <em>bounds</em>, which can be expressed in latitudes and longitudes, but also the projection’s <em>projected bounds</em>, which are expressed in projected coordinates.</p>
 <p><img src="images/proj-bounds.png" alt="Figure of lat/lng bounds being projected onto a surface"></p>
 <p><em>Words about bounding boxes, lines etc. and how they’re projected/unprojected</em></p>
-<h3 id="from-projection-to-map-image">From projection to map image</h3>
-<p>There’s no standard for what a projected coordinate means. It’s common to denote the coordinate components as <em>x</em> and <em>y</em>, the same as the convention in most coordinate system. Often the y axis is directed in north/south direction, or at least close to, and the x axis in east/west direction. It is also common for the coordinate unit to be some common distance unit like meters or feet.</p>
+<h3><a name="from-projection-to-map-image" class="anchor" href="#from-projection-to-map-image"><span class="header-link"></span></a>From projection to map image</h3><p>There’s no standard for what a projected coordinate means. It’s common to denote the coordinate components as <em>x</em> and <em>y</em>, the same as the convention in most coordinate system. Often the y axis is directed in north/south direction, or at least close to, and the x axis in east/west direction. It is also common for the coordinate unit to be some common distance unit like meters or feet.</p>
 <p>On the other hand, there are many cases where the x and y axis are swapped, such that x is north/south oriented. The units might be degrees, radians or something without any trivial correlation to real world distance units. In short, the projected coordinates themselves are often not directly suitable to draw a bitmap image from, since the projected coordinates rarely correspond to the desired pixel coordinates in an image.</p>
 <p>To use the projected coordinates for bitmaps, another mathematical operation has to be applied to them. In comparison to the projection, this operation is however usually much simpler. It involves:</p>
 <ul>
@@ -62,35 +69,28 @@ that what appears to the user as one large map image, is really put together fro
 </ul>
 <p>Although these operations can be implemented in several ways, it is helpful to know that they are so called <em>affine transformations</em> that can be implemented by matrix multiplication, a fact that many tiled map libraries take advantage of.</p>
 <p>After applying this transformation, the projected coordinate has been transformed to a <em>pixel coordinate</em>, referring to a specific pixel in a bitmap image.</p>
-<h3 id="making-tiles">Making tiles</h3>
-<p>As already described, a tiled map consists of a number of zoom levels, where each zoom level is a map of the same geographic area, but drawn at different scales, split into tiles, where each tile has the same size independent of the zoom level. Increasing scale also means increasing the map’s size in pixels, which in turn increases the number of tiles in that zoom level.</p>
+<h3><a name="making-tiles" class="anchor" href="#making-tiles"><span class="header-link"></span></a>Making tiles</h3><p>As already described, a tiled map consists of a number of zoom levels, where each zoom level is a map of the same geographic area, but drawn at different scales, split into tiles, where each tile has the same size independent of the zoom level. Increasing scale also means increasing the map’s size in pixels, which in turn increases the number of tiles in that zoom level.</p>
 <p>Tiles are organized into <em>rows</em> (up/down direction) and <em>columns</em> (left/right direction). Calculating the row and column number from a pixel coordinate, is a simple as subtracting the tile set’s origin from the pixel coordinate, and dividing the result by the tile size in pixels, usually rounding the result to an integer.</p>
-<h3 id="addressing-tiles">Addressing tiles</h3>
-<p>To complicate matters, there are at least three different conventions for how to refer to a single tile.</p>
-<h4 id="tms">TMS</h4>
-<p><a href="http://wiki.osgeo.org/wiki/Tile_Map_Service_Specification">TMS</a> (Tile Map Service) addresses a tile by numbering the zoom levels, starting from 0. The tile rows and columns are also numbered, starting with 0 on the bottom left and growing to the right and upwards.</p>
+<h3><a name="addressing-tiles" class="anchor" href="#addressing-tiles"><span class="header-link"></span></a>Addressing tiles</h3><p>To complicate matters, there are at least three different conventions for how to refer to a single tile.</p>
+<h4><a name="tms" class="anchor" href="#tms"><span class="header-link"></span></a>TMS</h4><p><a href="http://wiki.osgeo.org/wiki/Tile_Map_Service_Specification">TMS</a> (Tile Map Service) addresses a tile by numbering the zoom levels, starting from 0. The tile rows and columns are also numbered, starting with 0 on the bottom left and growing to the right and upwards.</p>
 <p>TMS numbers zoom levels by two different schemes depending on the map projection used:</p>
 <ul>
 <li>For projections with global coverage (global-geodetic and global-mercator), zoom level 0 is the most zoomed out (lowest scale), and increasing zoom levels also increase scale</li>
 <li>For local projections, zoom level 0 is the zoom level with the highest scale, fixed at 1 projected coordinate per pixel, ncreasing zoom levels decrease the scale</li>
 </ul>
-<h4 id="google-maps-openstreetmap-slippy-map-tile-naming">Google Maps / OpenStreetMap / Slippy map tile naming</h4>
-<p>This is a de facto standard used by several tile providers, most notably Google Maps and <a href="http://wiki.openstreetmap.org/wiki/Slippy_map_tilenames">OpenStreetMap</a>.</p>
+<h4><a name="google-maps-openstreetmap-slippy-map-tile-naming" class="anchor" href="#google-maps-openstreetmap-slippy-map-tile-naming"><span class="header-link"></span></a>Google Maps / OpenStreetMap / Slippy map tile naming</h4><p>This is a de facto standard used by several tile providers, most notably Google Maps and <a href="http://wiki.openstreetmap.org/wiki/Slippy_map_tilenames">OpenStreetMap</a>.</p>
 <p>The standard is only well documented for one projection: spherical Mercator. Addressing is very similar to TMS. Zoom level 0 is the most zoomed out (lowest scale), at this level the whole world fits into one tile, increasing zoom one level doubles the scale. Rows and columns are numbered from 0, starting from top left, and growing to the right and <em>downwards</em>. Note that this means that compared to TMS, rows are numbered in the opposite direction.</p>
 <p>This scheme can be adapted to be used with other projections than spherical mercator, but there is no well established standard for doing so.</p>
-<h4 id="tiled-wms">Tiled WMS</h4>
-<p>There are a number of standards and proposals for tiling WMS. Their relation to each other is confusing.</p>
+<h4><a name="tiled-wms" class="anchor" href="#tiled-wms"><span class="header-link"></span></a>Tiled WMS</h4><p>There are a number of standards and proposals for tiling WMS. Their relation to each other is confusing.</p>
 <ul>
 <li><a href="http://www.opengeospatial.org/standards/wmts">WMTS</a>, which might be the same as <a href="http://wiki.osgeo.org/wiki/WMS-C">WMS-C</a> or the <a href="http://wiki.osgeo.org/wiki/WMS_Tile_Caching">WMS Tile Caching</a> standard</li>
 <li><a href="http://wiki.osgeo.org/wiki/WMS_Tiling_Client_Recommendation">WMS Tiling Recommendation</a></li>
 </ul>
 <p>They all have in common that rather than addressing a tile by explicitly numbering the rows, columns and zoom levels of the tile set, they use the WMS standard’s request to gather this information implicitly.</p>
 <p>A WMS request, among many things, includes a bounding box, specifying the projected coordinates of the requested image. From this bounding box, the scale can be calculated which gives the zoom level. By transforming the projected coordinates to pixel coordinates for this zoom level, the tile’s row and column can be calculated.</p>
-<h2 id="credits">Credits</h2>
-<p>Inspiration from <a href="http://macwright.org">Tom MacWright</a> and his project <a href="http://macwright.org/mapschool/">mapschool</a>.</p>
+<h2><a name="credits" class="anchor" href="#credits"><span class="header-link"></span></a>Credits</h2><p>Inspiration from <a href="http://macwright.org">Tom MacWright</a> and his project <a href="http://macwright.org/mapschool/">mapschool</a>.</p>
 <p>Background pattern is Zwartevilt by <a href="http://www.evanzummeren.com/">E. van Zummeren</a>, published on <a href="http://subtlepatterns.com/">Subtle Patterns</a>.</p>
-<h2 id="license">License</h2>
-<p><a href="http://creativecommons.org/licenses/by/3.0/deed.en_US"><img src="images/cc.png" alt="Creative Commons"> Creative Commons Attribution 3.0 Unported</a></p>
+<h2><a name="license" class="anchor" href="#license"><span class="header-link"></span></a>License</h2><p><a href="http://creativecommons.org/licenses/by/3.0/deed.en_US"><img src="images/cc.png" alt="Creative Commons"> Creative Commons Attribution 3.0 Unported</a></p>
 
     </div>
 </body>
