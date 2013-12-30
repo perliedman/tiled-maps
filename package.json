@@ -16,6 +16,6 @@
   "license": "BSD-2-Clause",
   "dependencies": {
     "underscore": "~1.5.2",
-    "marked": "~0.2.10"
+    "marked": "~0.3.0"
   }
 }
