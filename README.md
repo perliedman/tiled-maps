@@ -1,5 +1,7 @@
 ## About this document
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/perliedman/tiled-maps.svg)](https://greenkeeper.io/)
+
 This is a short, [free and open](https://github.com/perliedman/tiled-maps) introduction to the concept of tiled maps. It covers the basics as well as a lot of technical detail on how tiling maps work, for example projections and how coordinates are handled. It assumes basic knowledge about maps and geography. A good start before reading this document is for example [mapschool](http://macwright.org/mapschool/).
 
 ## Introduction
