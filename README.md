@@ -1,6 +1,6 @@
 ## About this document
 
-This is a short, [free and open](https://github.com/perliedman/tiled-maps) introduction to the concept of tiled maps. It covers the basics as well as a lot of technical detail on how tiling maps work, for example projections and how coordinates are handled. It assumes basic knowledge about maps and geography. A good start before reading this document is for example [mapschool](http://macwright.org/mapschool/).
+This is a short, [free and open](https://github.com/perliedman/tiled-maps) introduction to the concept of tiled maps. It covers the basics as well as a lot of technical detail on how tiling maps work, for example projections and how coordinates are handled. It assumes basic knowledge about maps and geography. A good start before reading this document is for example [mapschool](http://mapschool.io/).
 
 ## Introduction
 
@@ -168,7 +168,7 @@ TBD
 
 ## Credits
 
-Inspiration from [Tom MacWright](http://macwright.org) and his project [mapschool](http://macwright.org/mapschool/).
+Inspiration from [Tom MacWright](http://macwright.org) and his project [mapschool](http://mapschool.io/).
 
 Background pattern is Zwartevilt by [E. van Zummeren](http://www.evanzummeren.com/), published on [Subtle Patterns](http://subtlepatterns.com/).
 
