@@ -37,7 +37,7 @@ Instead of making a single, huge image, a tiling map will divide the image into 
 
 Tiling is not necessarily just for images. The same technique can be used for other types of geographic data, where the data set is a coverage for a geographic area, and grows to unmanageable size. For example:
 
-* [Vector tiles](https://github.com/mapbox/tm2)
+* [Vector tiles](https://github.com/mapbox/vector-tile-spec)
 * [UTFGrid](https://github.com/mapbox/utfgrid-spec)
 
 ## Alternatives to tiling
